@@ -8,7 +8,7 @@
 		"type": "php",
 		"homepage": "http://osticket.com/",
 		"categories": ["apps/customer-support", "apps/project-management"],
-		"logo": "https://raw.githubusercontent.com/JelasticJPS/osTicket/master/images/osticket_70x70.png",
+		"logo": "https://raw.githubusercontent.com/jelastic-jps/osTicket/master/images/osticket_70x70.png",
 		"description": {
 			"text": "osTicket is one of the most popular and highly trusted free customer support ticket systems, which routes all the inquiries into a simple, easy-to-use and multi-user web-based customer support platform."
 		},
@@ -33,7 +33,7 @@
 			"deployments": [{
 					"name": "osTicket-1.9.12.zip",
 					"context": "ROOT",
-					"archive": "https://raw.githubusercontent.com/JelasticJPS/osTicket/master/dumps/archive.zip"
+					"archive": "https://raw.githubusercontent.com/jelastic-jps/osTicket/master/dumps/archive.zip"
 				}
 			],
 			"configs": [{
@@ -61,7 +61,7 @@
 					"database": {
 						"name": "osticket",
 						"user": "osticket",
-						"dump": "https://raw.githubusercontent.com/JelasticJPS/osTicket/master/dumps/osticket.sql",
+						"dump": "https://raw.githubusercontent.com/jelastic-jps/osTicket/master/dumps/osticket.sql",
 						"patch": "UPDATE osticket.ost_staff SET passwd=MD5('${user.appPassword}') WHERE username='superuser'; UPDATE osticket.ost_config SET value='${env.url}' WHERE id='2';"
 					}
 				}, {
