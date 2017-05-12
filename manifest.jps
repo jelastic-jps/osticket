@@ -62,7 +62,7 @@
 						"name": "osticket",
 						"user": "osticket",
 						"dump": "https://raw.githubusercontent.com/jelastic-jps/osticket/master/dumps/osticket.sql",
-						"patch": "UPDATE osticket.ost_staff SET passwd=MD5('${user.appPassword}') WHERE username='superuser'; UPDATE osticket.ost_config SET value='${env.url}' WHERE id='2';"
+						"patch": "UPDATE osticket.ost_staff SET passwd=MD5('${user.appPassword}') WHERE username='superuser'; UPDATE osticket.ost_config SET value='${env.url}' WHERE id='2';UPDATE osticket.ost_email SET email='${user.email}' WHERE email_id=1;"
 					}
 				}, {
 					"restart": true,
