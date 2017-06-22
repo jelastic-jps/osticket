@@ -1,87 +1,87 @@
 {
-	"jpsType": "install",
-	"jpsVersion": "0.2",
-	"application": {
-		"id": "osticket",
-		"name": "osTicket",
-		"version": "1.9.12",
-		"type": "php",
-		"homepage": "http://osticket.com/",
-		"categories": ["apps/customer-support", "apps/project-management"],
-		"logo": "https://raw.githubusercontent.com/jelastic-jps/osticket/master/images/osticket_70x70.png",
-		"description": {
-			"text": "osTicket is one of the most popular and highly trusted free customer support ticket systems, which routes all the inquiries into a simple, easy-to-use and multi-user web-based customer support platform."
-		},
-		"env": {
-			"topology": {
-				"engine": "php5.4",
-				"nodes": [{
-						"extip": false,
-						"count": 1,
-						"cloudlets": 16,
-						"nodeType": "nginxphp"
-					}, {
-						"extip": false,
-						"count": 1,
-						"cloudlets": 16,
-						"nodeType": "mysql5"
-					}
-				],
-				"ssl": false,
-				"ha": false
-			},
-			"deployments": [{
-					"name": "osTicket-1.9.12.zip",
-					"context": "ROOT",
-					"archive": "https://raw.githubusercontent.com/jelastic-jps/osticket/master/dumps/archive.zip"
-				}
-			],
-			"configs": [{
-					"nodeType": "nginxphp",
-					"path": "/var/www/webroot/ROOT/include/ost-config.php",
-					"replacements": [{
-							"replacement": "${nodes.mysql5.address}",
-							"pattern": "{DB_HOST}"
-						}, {
-							"replacement": "${nodes.mysql5.database.name}",
-							"pattern": "{DB_NAME}"
-						}, {
-							"replacement": "${nodes.mysql5.database.user}",
-							"pattern": "{DB_USER}"
-						}, {
-							"replacement": "${nodes.mysql5.database.password}",
-							"pattern": "{DB_PASSWORD}"
-						}, {
-							"replacement": "${user.email}",
-							"pattern": "{user.email}"
-						}
-					]
-				}, {
-					"nodeType": "mysql5",
-					"database": {
-						"name": "osticket",
-						"user": "osticket",
-						"dump": "https://raw.githubusercontent.com/jelastic-jps/osticket/master/dumps/osticket.sql",
-						"patch": "UPDATE osticket.ost_staff SET passwd=MD5('${user.appPassword}') WHERE username='superuser'; UPDATE osticket.ost_config SET value='${env.url}' WHERE id='2';UPDATE osticket.ost_email SET email='${user.email}' WHERE email_id=1;"
-					}
-				}, {
-					"restart": true,
-					"replacements": [{
-							"replacement": "extension=gd.so",
-							"pattern": "; Dynamic Extensions ;"
-						}, {
-							"pattern": ";extension=mysqli.so",
-							"replacement": "extension=mysqli.so"
-						}
-					],
-					"path": "${PHP_CONF}",
-					"nodeType": "nginxphp"
-				}
-			]
-		},
-		"success": {
-			"text": "Below you will find your admin panel link, username and password.</br></br> <table style='font-size:13px; border: none;'><tr><td>Admin panel URL:</td><td style='padding-left: 10px;'><a href='${env.protocol}://${env.domain}/scp' target='_blank'>${env.protocol}://${env.domain}/scp</a></td></tr>  <tr><td>Admin name:</td><td style='padding-left: 10px;'>superuser</td></tr><tr><td>Password:</td><td style='padding-left: 10px;'>${user.appPassword}</td></tr></table></br>To add custom domain name for your osTicket installation follow the steps described in our <a href='http://docs.jelastic.com/custom-domains' target='_blank'>documentation</a>",
-			"email": "Below you will find your admin panel link, username and password.</br></br> <table style='font-size:13px; border: none;'><tr><td>Admin panel URL:</td><td style='padding-left: 10px;'><a href='${env.protocol}://${env.domain}/scp' target='_blank'>${env.protocol}://${env.domain}/scp</a></td></tr>  <tr><td>Admin name:</td><td style='padding-left: 10px;'>superuser</td></tr><tr><td>Password:</td><td style='padding-left: 10px;'>${user.appPassword}</td></tr></table></br>To add custom domain name for your osTicket installation follow the steps described in our <a href='http://docs.jelastic.com/custom-domains' target='_blank'>documentation</a>"
-		}
-	}
+    "jpsType": "install",
+    "jpsVersion": "0.2",
+    "application": {
+        "id": "osticket",
+        "name": "osTicket",
+        "version": "1.9.12",
+        "type": "php",
+        "homepage": "http://osticket.com/",
+        "categories" : ["apps/customer-support","apps/project-management"],
+        "logo": "https://download.jelastic.com/public.php?service=files&t=273d7e612855fd38638c404886113204&download",
+        "description": {
+            "text": "osTicket is one of the most popular and highly trusted free customer support ticket systems, which routes all the inquiries into a simple, easy-to-use and multi-user web-based customer support platform."
+        },
+        "env": {
+            "topology": {
+                "engine": "php5.4",
+                "nodes": [{
+                    "extip": false,
+                    "count": 1,
+                    "cloudlets": 16,
+                    "nodeType": "nginxphp"
+                }, {
+                    "extip": false,
+                    "count": 1,
+                    "cloudlets": 16,
+                    "nodeType": "mysql5"
+                }
+                ],
+                "ssl": false,
+                "ha": false
+            },
+            "deployments": [{
+                "name": "osTicket-1.9.12.zip",
+                "context": "ROOT",
+                "archive": "https://download.jelastic.com/public.php?service=files&t=8de9c379f8f6cbf4afa86c0d352f05f1&download"
+            }
+            ],
+            "configs": [{
+                "nodeType": "nginxphp",
+                "path": "/var/www/webroot/ROOT/include/ost-config.php",
+                "replacements": [{
+                    "replacement": "${nodes.mysql5.address}",
+                    "pattern": "{DB_HOST}"
+                }, {
+                    "replacement": "${nodes.mysql5.database.name}",
+                    "pattern": "{DB_NAME}"
+                }, {
+                    "replacement": "${nodes.mysql5.database.user}",
+                    "pattern": "{DB_USER}"
+                }, {
+                    "replacement": "${nodes.mysql5.database.password}",
+                    "pattern": "{DB_PASSWORD}"
+                }, {
+                    "replacement": "${user.email}",
+                    "pattern": "{user.email}"
+                }
+                ]
+            }, {
+                "nodeType": "mysql5",
+                "database": {
+                    "name": "osticket",
+                    "user": "osticket",
+                    "dump": "https://download.jelastic.com/public.php?service=files&t=320c387ac1103dd478ab55eb028de7af&download",
+                    "patch": "UPDATE osticket.ost_staff SET passwd=MD5('${user.appPassword}') WHERE username='superuser'; UPDATE osticket.ost_config SET value='${env.url}' WHERE id='2';UPDATE osticket.ost_email SET email='${user.email}' WHERE email_id = 1;UPDATE osticket.ost_email SET email='alerts@example.com' WHERE email_id = 2;UPDATE osticket.ost_email SET email='noreply@example.com' WHERE email_id = 3;"
+                }
+            }, {
+                "restart": true,
+                "replacements": [{
+                    "replacement": "extension=gd.so",
+                    "pattern": "; Dynamic Extensions ;"
+                }, {
+                    "pattern": ";extension=mysqli.so",
+                    "replacement": "extension=mysqli.so"
+                }
+                ],
+                "path": "${PHP_CONF}",
+                "nodeType": "nginxphp"
+            }
+            ]
+        },
+        "success": {
+            "text": "Below you will find your admin panel link, username and password.</br></br> <table style='font-size:13px; border: none;'><tr><td>Admin panel URL:</td><td style='padding-left: 10px;'><a href='${env.protocol}://${env.domain}/scp' target='_blank'>${env.protocol}://${env.domain}/scp</a></td></tr>  <tr><td>Admin name:</td><td style='padding-left: 10px;'>superuser</td></tr><tr><td>Password:</td><td style='padding-left: 10px;'>${user.appPassword}</td></tr></table></br>To add custom domain name for your osTicket installation follow the steps described in our <a href='http://docs.jelastic.com/custom-domains' target='_blank'>documentation</a>",
+            "email": "Below you will find your admin panel link, username and password.</br></br> <table style='font-size:13px; border: none;'><tr><td>Admin panel URL:</td><td style='padding-left: 10px;'><a href='${env.protocol}://${env.domain}/scp' target='_blank'>${env.protocol}://${env.domain}/scp</a></td></tr>  <tr><td>Admin name:</td><td style='padding-left: 10px;'>superuser</td></tr><tr><td>Password:</td><td style='padding-left: 10px;'>${user.appPassword}</td></tr></table></br>To add custom domain name for your osTicket installation follow the steps described in our <a href='http://docs.jelastic.com/custom-domains' target='_blank'>documentation</a>"
+        }
+    }
 }
