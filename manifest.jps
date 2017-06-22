@@ -8,7 +8,7 @@
         "type": "php",
         "homepage": "http://osticket.com/",
         "categories" : ["apps/customer-support","apps/project-management"],
-        "logo": "https://download.jelastic.com/public.php?service=files&t=273d7e612855fd38638c404886113204&download",
+        "logo": "https://raw.githubusercontent.com/jelastic-jps/osticket/master/images/osticket_70x70.png",
         "description": {
             "text": "osTicket is one of the most popular and highly trusted free customer support ticket systems, which routes all the inquiries into a simple, easy-to-use and multi-user web-based customer support platform."
         },
@@ -33,7 +33,7 @@
             "deployments": [{
                 "name": "osTicket-1.9.12.zip",
                 "context": "ROOT",
-                "archive": "https://download.jelastic.com/public.php?service=files&t=8de9c379f8f6cbf4afa86c0d352f05f1&download"
+                "archive": "https://raw.githubusercontent.com/jelastic-jps/osticket/master/dumps/archive.zip"
             }
             ],
             "configs": [{
@@ -61,7 +61,7 @@
                 "database": {
                     "name": "osticket",
                     "user": "osticket",
-                    "dump": "https://download.jelastic.com/public.php?service=files&t=320c387ac1103dd478ab55eb028de7af&download",
+                    "dump": "https://raw.githubusercontent.com/jelastic-jps/osticket/master/dumps/osticket.sql",
                     "patch": "UPDATE osticket.ost_staff SET passwd=MD5('${user.appPassword}') WHERE username='superuser'; UPDATE osticket.ost_config SET value='${env.url}' WHERE id='2';UPDATE osticket.ost_email SET email='${user.email}' WHERE email_id = 1;UPDATE osticket.ost_email SET email='alerts@example.com' WHERE email_id = 2;UPDATE osticket.ost_email SET email='noreply@example.com' WHERE email_id = 3;"
                 }
             }, {
