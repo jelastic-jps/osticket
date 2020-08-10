@@ -1,6 +1,7 @@
 type: install
 id: osticket
 name: osTicket
+version: 1.7
 homepage: http://osticket.com/
 categories:
 - apps/customer-support
