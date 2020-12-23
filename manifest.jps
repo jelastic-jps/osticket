@@ -13,10 +13,10 @@ logo: https://download.jelastic.com/public.php?service=files&t=273d7e612855fd386
 description: osTicket is one of the most popular and highly trusted free customer
   support ticket systems, which routes all the inquiries into a simple, easy-to-use
   and multi-user web-based customer support platform.
-engine: php5.4
 nodes:
 - cloudlets: 8
   nodeType: apache
+  engine: php7.4
 - cloudlets: 8
   nodeType: mysql5
 onInstall:
