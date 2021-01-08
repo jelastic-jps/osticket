@@ -29,22 +29,6 @@ nodes:
   nodeType: mysql5
 
 onInstall:
-- replaceInFile:
-  - replacements:
-    - replacement: extension=gd.so
-      pattern: ; Dynamic Extensions ;
-    - pattern: ;extension=mysqli.so
-      replacement: extension=mysqli.so
-    - pattern: ;.*extension=apcu.so
-      replacement: extension=apcu.so
-    - pattern: ;.*extension=imap.so
-      replacement: extension=imap.so
-    - pattern: ;.*extension=intl.so
-      replacement: extension=intl.so
-    - pattern: .*zend_extension=/usr/lib64/php/modules/opcache.so
-      replacement: zend_extension=/usr/lib64/php/modules/opcache.so
-    path: /etc/php.ini
-    nodeType: apache
 - prepareSqlDatabase:
     nodeGroup: sqldb
     loginCredentials:
@@ -54,6 +38,13 @@ onInstall:
     newDatabaseUser:
       name: osticket
       password: ${globals.DB_PASS}
+- cmd [cp]: |-
+    echo "extension=gd.so;
+    extension=mysqli.so;
+    extension=apcu.so;
+    extension=imap.so;
+    extension=intl.so;
+    zend_extension=/usr/lib64/php/modules/opcache.so;" > /etc/php.d/osticket-php.ini
 - restartNodes:
    nodeGroup: cp
 - cmd [cp]: |-
