@@ -9,67 +9,62 @@ categories:
 globals:
   DB_PASS: "${fn.password(6)}"
   ADMIN_PASS: "${user.appPassword}"
-logo: https://download.jelastic.com/public.php?service=files&t=273d7e612855fd38638c404886113204&download
+  ROOT_PATH: /var/www/webroot/ROOT/
+  LOG_FILE: /var/www/webroot/install_osticket.log
+  
+baseUrl: https://raw.githubusercontent.com/jelastic-jps/osticket/master/
+logo: images/osticket_70x70.png
+mixins: 
+- configs/vers.yaml
+
 description: osTicket is one of the most popular and highly trusted free customer
   support ticket systems, which routes all the inquiries into a simple, easy-to-use
   and multi-user web-based customer support platform.
+
 nodes:
 - cloudlets: 8
   nodeType: apache
   engine: php7.4
 - cloudlets: 8
   nodeType: mysql5
+
 onInstall:
-- deploy:
-    name: osTicket-1.14.1.zip
-    context: ROOT
-    archive: https://download.jelastic.com/public.php?service=files&t=8c469347c4053e0ed953ec33e38d0206&download
 - replaceInFile:
-  - nodeType: apache
-    path: "/var/www/webroot/ROOT/include/ost-config.php"
-    replacements:
-    - replacement: "${nodes.sqldb.address}"
-      pattern: "{DB_HOST}"
-    - replacement: osticket
-      pattern: "{DB_NAME}"
-    - replacement: osticket
-      pattern: "{DB_USER}"
-    - replacement: "${globals.DB_PASS}"
-      pattern: "{DB_PASSWORD}"
-    - replacement: "${user.email}"
-      pattern: "{user.email}"
   - replacements:
     - replacement: extension=gd.so
-      pattern: "; Dynamic Extensions ;"
-    - pattern: ";extension=mysqli.so"
+      pattern: ; Dynamic Extensions ;
+    - pattern: ;extension=mysqli.so
       replacement: extension=mysqli.so
-    - pattern: ";.*extension=apcu.so"
+    - pattern: ;.*extension=apcu.so
       replacement: extension=apcu.so
-    - pattern: ";.*extension=imap.so"
+    - pattern: ;.*extension=imap.so
       replacement: extension=imap.so
-    path: "/etc/php.ini"
+    - pattern: ;.*extension=intl.so
+      replacement: extension=intl.so
+    - pattern: .*zend_extension=/usr/lib64/php/modules/opcache.so
+      replacement: zend_extension=/usr/lib64/php/modules/opcache.so
+    path: /etc/php.ini
     nodeType: apache
 - prepareSqlDatabase:
     nodeGroup: sqldb
     loginCredentials:
       user: root
-      password: "${nodes.mysql5.password}"
+      password: ${nodes.mysql5.password}
     newDatabaseName: osticket
     newDatabaseUser:
       name: osticket
-      password: "${globals.DB_PASS}"
-- restoreSqlDump:
-    nodeGroup: sqldb
-    databaseName: osticket
-    user: osticket
-    password: "${globals.DB_PASS}"
-    dump: https://download.jelastic.com/public.php?service=files&t=a59fa69677341c68899b19cd0c1b675b&download
-- applySqlPatch:
-    nodeGroup: sqldb
-    databaseName: osticket
-    user: osticket
-    password: "${globals.DB_PASS}"
-    patch: UPDATE osticket.ost_staff SET passwd=MD5('${globals.ADMIN_PASS}') WHERE username='jelastic'; UPDATE osticket.ost_config SET value='${env.url}' WHERE id='2';UPDATE osticket.ost_email SET email='${user.email}' WHERE email_id = 1;UPDATE osticket.ost_email SET email='alerts@example.com' WHERE email_id = 2;UPDATE osticket.ost_email SET email='noreply@example.com' WHERE email_id = 3;UPDATE osticket.ost_staff SET updated=NOW(), passwdreset=NOW(), created=NOW() where username='jelastic'; UPDATE osticket.ost_syslog SET created=NOW(), updated=NOW() WHERE log_id=1;UPDATE osticket.ost_thread SET lastmessage=NOW(), created=NOW() WHERE id=1;UPDATE osticket.ost_thread_entry SET created=NOW() WHERE id=1; UPDATE osticket.ost_thread_event SET timestamp=NOW() WHERE id=1; UPDATE osticket.ost_staff SET email='${user.email}' WHERE staff_id=1; UPDATE osticket.ost_config SET value='${user.email}' WHERE id=1;
+      password: ${globals.DB_PASS}
+- restartNodes:
+   nodeGroup: cp
+- cmd [cp]: |-
+    cd ${globals.ROOT_PATH}; rm -rf *
+    curl -fsSL https://github.com/osTicket/osTicket/releases/download/v${globals.version_osticket}/osTicket-v${globals.version_osticket}.zip -o osTicket-v${globals.version_osticket}.zip >> ${globals.LOG_FILE}
+    unzip -o osTicket-v${globals.version_osticket}.zip >> ${globals.LOG_FILE}
+    mv upload/* .; mv scripts/* .; rm -rf upload scripts
+    cp include/ost-sampleconfig.php include/ost-config.php
+    email="${user.email}"
+    curl 127.0.0.1/setup/install.php -X POST -H 'Content-Type: application/x-www-form-urlencoded' -d 's=install' -d 'name=Jelastic' --data-urlencode 'email=admin@example.com' -d 'lang_id=en_US' -d 'fname=Admin' -d 'lname=Jelastic' --data-urlencode 'admin_email='${email} -d 'username=jelastic' -d 'passwd=${globals.ADMIN_PASS}' -d 'passwd2=${globals.ADMIN_PASS}' -d 'prefix=ost_' -d 'dbhost=${nodes.sqldb.address}' -d 'dbname=osticket' -d 'dbuser=osticket' -d 'dbpass=${globals.DB_PASS}'
+
 success: |
     Below you will find your admin panel link, username and password.  
     Admin panel URL: [${env.protocol}://${env.domain}/scp](${env.protocol}://${env.domain}/scp)  
