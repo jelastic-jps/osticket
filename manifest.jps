@@ -24,7 +24,7 @@ description: osTicket is one of the most popular and highly trusted free custome
 nodes:
 - cloudlets: 8
   nodeType: apache
-  engine: php7.4
+  engine: php8.1
 - cloudlets: 8
   nodeType: mysql5
 
