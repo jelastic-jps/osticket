@@ -7,12 +7,12 @@ categories:
 - apps/customer-support
 - apps/project-management
 globals:
-  DB_PASS: "${fn.password(6)}"
+  DB_PASS: "${fn.password(10)}"
   ADMIN_PASS: "${user.appPassword}"
   ROOT_PATH: /var/www/webroot/ROOT/
   LOG_FILE: /var/www/webroot/install_osticket.log
   
-baseUrl: https://raw.githubusercontent.com/jelastic-jps/osticket/master/
+baseUrl: https://raw.githubusercontent.com/sych74/osticket/master/
 logo: images/osticket_70x70.png
 mixins: 
 - configs/vers.yaml
@@ -26,14 +26,14 @@ nodes:
   nodeType: apache
   engine: php8.1
 - cloudlets: 8
-  nodeType: mysql5
+  nodeType: mysql8
 
 onInstall:
 - prepareSqlDatabase:
     nodeGroup: sqldb
     loginCredentials:
       user: root
-      password: ${nodes.mysql5.password}
+      password: ${nodes.mysql8.password}
     newDatabaseName: osticket
     newDatabaseUser:
       name: osticket
