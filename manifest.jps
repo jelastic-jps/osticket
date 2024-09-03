@@ -29,15 +29,12 @@ nodes:
   nodeType: mysql8
 
 onInstall:
-- prepareSqlDatabase:
-    nodeGroup: sqldb
-    loginCredentials:
-      user: root
-      password: ${nodes.mysql8.password}
-    newDatabaseName: osticket
-    newDatabaseUser:
-      name: osticket
-      password: ${globals.DB_PASS}
+
+- cmd[sqldb]: |-
+    MYSQL_PWD=${nodes.mysql8.password} mysql -uroot -e "CREATE DATABASE osticket;"
+    MYSQL_PWD=${nodes.mysql8.password} mysql -uroot -e "CREATE USER 'osticket'@'%' IDENTIFIED BY '${globals.DB_PASS}';"
+    MYSQL_PWD=${nodes.mysql8.password} mysql -uroot -e "GRANT ALL PRIVILEGES ON osticket.* To 'osticket'@'%' WITH GRANT OPTION;"
+
 - cmd [cp]: |-
     echo "extension=gd.so;
     extension=mysqli.so;
