@@ -7,7 +7,7 @@ categories:
 - apps/customer-support
 - apps/project-management
 globals:
-  DB_PASS: "${fn.password(6)}"
+  DB_PASS: "${fn.password(10)}"
   ADMIN_PASS: "${user.appPassword}"
   ROOT_PATH: /var/www/webroot/ROOT/
   LOG_FILE: /var/www/webroot/install_osticket.log
@@ -26,18 +26,15 @@ nodes:
   nodeType: apache
   engine: php8.1
 - cloudlets: 8
-  nodeType: mysql5
+  nodeType: mysql8
 
 onInstall:
-- prepareSqlDatabase:
-    nodeGroup: sqldb
-    loginCredentials:
-      user: root
-      password: ${nodes.mysql5.password}
-    newDatabaseName: osticket
-    newDatabaseUser:
-      name: osticket
-      password: ${globals.DB_PASS}
+
+- cmd[sqldb]: |-
+    MYSQL_PWD=${nodes.mysql8.password} mysql -uroot -e "CREATE DATABASE osticket;"
+    MYSQL_PWD=${nodes.mysql8.password} mysql -uroot -e "CREATE USER 'osticket'@'%' IDENTIFIED BY '${globals.DB_PASS}';"
+    MYSQL_PWD=${nodes.mysql8.password} mysql -uroot -e "GRANT ALL PRIVILEGES ON osticket.* To 'osticket'@'%' WITH GRANT OPTION;"
+
 - cmd [cp]: |-
     echo "extension=gd.so;
     extension=mysqli.so;
