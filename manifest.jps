@@ -2,7 +2,7 @@ type: install
 id: osticket
 name: osTicket
 version: 1.7
-homepage: http://osticket.com/
+homepage: https://osticket.com/
 categories:
 - apps/customer-support
 - apps/project-management
@@ -58,4 +58,4 @@ success: |
     Admin panel URL: [${env.protocol}://${env.domain}/scp](${env.protocol}://${env.domain}/scp)  
     Admin name: virtuozzo  
     Password: ${globals.ADMIN_PASS}  
-    To add custom domain name for your osTicket installation follow the steps described in our [documentation](http://docs.jelastic.com/custom-domains)
+    To add custom domain name for your osTicket installation follow the steps described in our [documentation](https://www.virtuozzo.com/application-platform-docs/custom-domains/).
