@@ -4,7 +4,7 @@
 
 # osTicket
 
-The package deploys the [osTicket](https://osticket.com/) solution - a widely used and trusted open source support ticketing system. osTicket routes all the inquiries into a simple, easy-to-use and multi-user web-based customer support platform. It offers features such as ticket filtering, automated responses, and customizable fields to enhance the support process.
+The package deploys the [osTicket](https://osticket.com/) solution - a widely used and trusted open-source support ticketing system. osTicket seamlessly routes all inquiries into a simple and easy-to-use web-based customer support platform. It offers features such as ticket filtering, automated responses, and customizable fields to enhance the support process.
 
 
 ## Environment Topology

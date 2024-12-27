@@ -17,9 +17,7 @@ logo: images/osticket_70x70.png
 mixins: 
 - configs/vers.yaml
 
-description: osTicket is one of the most popular and highly trusted free customer
-  support ticket systems, which routes all the inquiries into a simple, easy-to-use
-  and multi-user web-based customer support platform.
+description: osTicket is one of the most popular and highly trusted customer support ticketing systems. osTicket seamlessly routes all inquiries into a simple and easy-to-use web-based customer support platform.
 
 nodes:
 - cloudlets: 8
@@ -54,8 +52,10 @@ onInstall:
     curl 127.0.0.1/setup/install.php -X POST -H 'Content-Type: application/x-www-form-urlencoded' -d 's=install' -d 'name=Virtuozzo' --data-urlencode 'email=admin@example.com' -d 'lang_id=en_US' -d 'fname=Admin' -d 'lname=Virtuozzo' --data-urlencode 'admin_email='${email} -d 'username=virtuozzo' -d 'passwd=${globals.ADMIN_PASS}' -d 'passwd2=${globals.ADMIN_PASS}' -d 'prefix=ost_' -d 'dbhost=${nodes.sqldb.address}' -d 'dbname=osticket' -d 'dbuser=osticket' -d 'dbpass=${globals.DB_PASS}'
 
 success: |
-    Below you will find your admin panel link, username and password.  
-    Admin panel URL: [${env.protocol}://${env.domain}/scp](${env.protocol}://${env.domain}/scp)  
-    Admin name: virtuozzo  
-    Password: ${globals.ADMIN_PASS}  
-    To add custom domain name for your osTicket installation follow the steps described in our [documentation](https://www.virtuozzo.com/application-platform-docs/custom-domains/).
+  Use the following credentials to access the osTicket admin panel:
+  
+  **Admin panel URL:** [${env.protocol}://${env.domain}/scp](${env.protocol}://${env.domain}/scp)  
+  **Admin name:** virtuozzo  
+  **Admin password:** ${globals.ADMIN_PASS}
+  
+  To add a custom domain name for your osTicket installation, follow the steps described in our [documentation](https://www.virtuozzo.com/application-platform-docs/custom-domains/).
