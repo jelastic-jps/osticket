@@ -19,6 +19,9 @@ mixins:
 
 description: osTicket is one of the most popular and highly trusted customer support ticketing systems. osTicket seamlessly routes all inquiries into a simple and easy-to-use web-based customer support platform.
 
+ssl: true
+skipNodeEmails: true
+
 nodes:
 - cloudlets: 8
   nodeType: apache
