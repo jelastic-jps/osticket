@@ -12,7 +12,7 @@ globals:
   ROOT_PATH: /var/www/webroot/ROOT/
   LOG_FILE: /var/www/webroot/install_osticket.log
   
-baseUrl: https://raw.githubusercontent.com/jelastic-jps/osticket/master/
+baseUrl: https://cdn.jsdelivr.net/gh/jelastic-jps/osticket@master/
 logo: images/osticket_70x70.png
 mixins: 
 - configs/vers.yaml
